@@ -16,30 +16,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-         fetch-depth: 0  # 必ず full clone
-         persist-credentials: true
+          fetch-depth: 0
+          persist-credentials: true
+          clean: true  # ★これが最重要
 
       - name: Configure Git
         run: |
-         git config --local user.email "github-actions@example.com"
-         git config --local user.name "GitHub Actions"
+          git config --local user.email "github-actions@example.com"
+          git config --local user.name "GitHub Actions"
 
-      # ★ リモートの最新状態を強制取得（ローカルの untracked を消す）
       - name: Reset to latest
         run: |
-         git fetch origin main
-         git reset --hard origin/main
+          git fetch origin main
+          git reset --hard origin/main
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install requests
 
       - name: Run script
         run: python free_distribution.py
         env:
-         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Commit changes
         run: |
-         git add cache_steam_epic.json
-         git commit -m "update cache" || echo "No changes"
+          git add cache_steam_epic.json
+          git commit -m "update cache" || echo "No changes"
 
       - name: Push changes
-        run: |
-         git push origin main
+        run: git push origin main
