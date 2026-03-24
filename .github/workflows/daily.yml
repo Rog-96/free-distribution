@@ -2,7 +2,7 @@ name: Daily Free Games Notifier
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # 毎日00:00 UTC (JST 09:00)
+    - cron: "0 20 * * *"  # 毎日20:00 UTC (JST 05:00)
   workflow_dispatch:
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
         run: pip install requests
 
       - name: Run script
-        run: python free_games.py
+        run: python free_distribution.py
 
       - name: Commit cache
         run: |
