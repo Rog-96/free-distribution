@@ -1,0 +1,41 @@
+name: Fab Free Notifier
+
+on:
+  schedule:
+    - cron: "30 20 * * *"  # JST 05:30
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  notifier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run script
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python fab_free.py
+
+      - name: Commit cache
+        run: |
+          git config --local user.email "github-actions@example.com"
+          git config --local user.name "GitHub Actions"
+          git pull --rebase
+          git add cache_fab.json
+          git commit -m "update fab cache" || echo "No changes"
+          git push
