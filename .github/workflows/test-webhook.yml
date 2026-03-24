@@ -1,0 +1,29 @@
+name: Test Discord Webhook
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Discord webhook POST
+        run: |
+          echo "DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}"
+
+          python3 - << 'EOF'
+          import os, requests
+
+          url = os.environ.get("DISCORD_WEBHOOK_URL")
+          print("Webhook URL loaded:", bool(url))
+
+          try:
+              r = requests.post(url, json={"content": "Test message from GitHub Actions"})
+              print("Status:", r.status_code)
+              print("Response:", r.text)
+          except Exception as e:
+              print("Error:", e)
+          EOF
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
