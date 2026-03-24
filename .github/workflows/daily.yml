@@ -30,6 +30,7 @@ jobs:
         run: |
           git config --local user.email "github-actions@example.com"
           git config --local user.name "GitHub Actions"
+          git pull --rebase
           git add cache.json
           git commit -m "update cache" || echo "No changes"
           git push
