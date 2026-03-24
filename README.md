@@ -1,0 +1,2 @@
+# free-distribution
+SteamやEpicの無料配布が更新されたタイミングでDiscordに通知を送る
