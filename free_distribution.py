@@ -4,7 +4,7 @@ import datetime
 
 API_URL = "https://www.gamerpower.com/api/giveaways?platform=pc"
 CACHE_FILE = "cache.json"
-WEBHOOK = "<YOUR_WEBHOOK_URL>"   # ← あなたの Webhook を入れる
+WEBHOOK = "https://discord.com/api/webhooks/1486093731160522924/avUMB-X0mzYScMSX09Dpb4fx4Uj7GXMJFt3rJKMXTZD3Yf803aF5FTK0V_si5rgwHkkr"   # ← あなたの Webhook を入れる
 
 def send_to_discord(msg: str):
     requests.post(WEBHOOK, json={"content": msg})
