@@ -2,8 +2,11 @@ name: Daily Free Games Notifier
 
 on:
   schedule:
-    - cron: "0 20 * * *"  # 毎日20:00 UTC (JST 05:00)
+    - cron: "0 20 * * *"  # JST 05:00
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   run_script:
@@ -12,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # ← これが重要
 
       - name: Set up Python
         uses: actions/setup-python@v5
